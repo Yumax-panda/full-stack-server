@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine as server-build
+FROM golang:1.18-alpine as server-build
 
 WORKDIR  /go/src/full-stack-server
 COPY . .
