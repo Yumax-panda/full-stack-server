@@ -19,7 +19,15 @@ func SetRouter(e *echo.Echo) error {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	e.GET("/api/users", GetUsersHandler)
+	api := e.Group("/api")
+	{
+		apiUsers := api.Group("/users")
+		{
+			apiUsers.GET("", GetUsersHandler)
+			apiUsers.POST("", CreateUserHandler)
+			apiUsers.POST("/login", LoginUserHandler)
+		}
+	}
 
 	err := e.Start(":8000")
 	return err
