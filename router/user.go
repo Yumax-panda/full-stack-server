@@ -75,12 +75,12 @@ func Login(c echo.Context) error {
 
 	user, err := model.GetUserByEmail(payload.Email)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "User not found")
+		return echo.NewHTTPError(http.StatusNotFound, "User not found")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "Invalid password")
+		return echo.NewHTTPError(http.StatusUnauthorized, "Invalid password")
 	}
 
 	t, err := generateToken(user)
