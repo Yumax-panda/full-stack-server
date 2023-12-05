@@ -10,27 +10,32 @@ import (
 
 type User struct {
 	ID       uuid.UUID      `json:"id"`
+	Admin    bool           `json:"admin"`
 	Name     string         `json:"name"`
 	Email    string         `json:"email"`
 	Password string         `json:"password"`
 	Comment  sql.NullString `json:"comment"`
 }
 
-func GetUser() ([]User, error) {
+func GetUsers() ([]User, error) {
 	var users []User
 	err := db.Find(&users).Error
 	return users, err
 }
 
 func CreateUser(name string, email string, password string, comment string) (User, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return User{}, err
+	}
 	user := User{
 		ID:       uuid.New(),
 		Name:     name,
 		Email:    email,
-		Password: password,
+		Password: string(hashedPassword),
 		Comment:  sql.NullString{String: comment, Valid: true},
 	}
-	err := db.Create(&user).Error
+	err = db.Create(&user).Error
 	return user, err
 }
 
@@ -40,9 +45,8 @@ func GetUserByEmail(email string) (User, error) {
 	return user, err
 }
 
-func comparePassword(hashedPassword string, password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
-	return err == nil
+func comparePassword(hashedPassword string, password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
 
 func Login(email string, password string) (User, error) {
@@ -50,7 +54,8 @@ func Login(email string, password string) (User, error) {
 	if err != nil {
 		return user, err
 	}
-	if !comparePassword(user.Password, password) {
+	err = comparePassword(user.Password, password)
+	if err != nil {
 		return user, err
 	}
 	return user, nil

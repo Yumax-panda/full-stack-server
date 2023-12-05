@@ -39,7 +39,7 @@ func generateToken(u model.User) (string, error) {
 }
 
 func GetUsersHandler(c echo.Context) error {
-	users, err := model.GetUser()
+	users, err := model.GetUsers()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -53,10 +53,7 @@ func CreateUserHandler(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	t, err := generateToken(user)
-	return c.JSON(http.StatusOK, echo.Map{
-		"token": t,
-	})
+	return c.JSON(http.StatusOK, user)
 }
 
 func setCookie(c echo.Context, t string) {
