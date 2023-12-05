@@ -44,19 +44,3 @@ func GetUserByEmail(email string) (User, error) {
 	err := db.Where("email = ?", email).First(&user).Error
 	return user, err
 }
-
-func comparePassword(hashedPassword string, password string) error {
-	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
-}
-
-func Login(email string, password string) (User, error) {
-	user, err := GetUserByEmail(email)
-	if err != nil {
-		return user, err
-	}
-	err = comparePassword(user.Password, password)
-	if err != nil {
-		return user, err
-	}
-	return user, nil
-}
