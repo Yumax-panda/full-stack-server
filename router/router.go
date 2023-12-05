@@ -23,9 +23,9 @@ func SetRouter(e *echo.Echo) error {
 	{
 		apiUsers := api.Group("/users")
 		{
-			apiUsers.GET("", GetUsersHandler)
-			apiUsers.POST("", CreateUserHandler)
-			apiUsers.POST("/login", LoginUserHandler)
+			apiUsers.GET("", GetUsers)
+			apiUsers.POST("", CreateUser)
+			apiUsers.POST("/login", Login)
 		}
 	}
 

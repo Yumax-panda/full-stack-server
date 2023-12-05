@@ -7,6 +7,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type CreateUserPayload struct {
@@ -38,7 +39,7 @@ func generateToken(u model.User) (string, error) {
 	return t, nil
 }
 
-func GetUsersHandler(c echo.Context) error {
+func GetUsers(c echo.Context) error {
 	users, err := model.GetUsers()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -46,7 +47,7 @@ func GetUsersHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, users)
 }
 
-func CreateUserHandler(c echo.Context) error {
+func CreateUser(c echo.Context) error {
 	var payload CreateUserPayload
 	err := c.Bind(&payload)
 	user, err := model.CreateUser(payload.Name, payload.Email, payload.Password, payload.Comment)
@@ -65,14 +66,23 @@ func setCookie(c echo.Context, t string) {
 	c.SetCookie(cookie)
 }
 
-func LoginUserHandler(c echo.Context) error {
+func Login(c echo.Context) error {
 	var payload LoginUserPayload
-
 	err := c.Bind(&payload)
-	user, err := model.Login(payload.Email, payload.Password)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	user, err := model.GetUserByEmail(payload.Email)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "User not found")
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "Invalid password")
+	}
+
 	t, err := generateToken(user)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
