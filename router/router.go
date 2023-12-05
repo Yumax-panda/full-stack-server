@@ -17,7 +17,9 @@ func SetRouter(e *echo.Echo) error {
 		Output: os.Stdout,
 	}))
 	e.Use(middleware.Recover())
-	e.Use(middleware.CORS())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowCredentials: true,
+	}))
 
 	api := e.Group("/api")
 	{
@@ -26,6 +28,10 @@ func SetRouter(e *echo.Echo) error {
 			apiUsers.GET("", GetUsers)
 			apiUsers.POST("", CreateUser)
 			apiUsers.POST("/login", Login)
+		}
+		apiMe := api.Group("/me")
+		{
+			apiMe.GET("", GetCurrentUser)
 		}
 	}
 
