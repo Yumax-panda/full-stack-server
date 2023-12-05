@@ -29,7 +29,7 @@ func SetRouter(e *echo.Echo) error {
 			apiUsers.POST("", CreateUser)
 			apiUsers.POST("/login", Login)
 		}
-		apiMe := api.Group("/me")
+		apiMe := api.Group("/@me")
 		{
 			apiMe.GET("", GetCurrentUser)
 		}
