@@ -92,3 +92,32 @@ func Login(c echo.Context) error {
 		"token": t,
 	})
 }
+
+func GetCurrentUser(c echo.Context) error {
+	cookie, err := c.Cookie("jwt")
+	if err != nil {
+		return echo.NewHTTPError(http.StatusUnauthorized, "No cookie")
+	}
+	token, err := jwt.ParseWithClaims(cookie.Value, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	if err != nil {
+		return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized: ", err.Error())
+	}
+	claims, ok := token.Claims.(*Claims)
+	if !ok {
+		return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized: ", err.Error())
+	}
+	user, err := model.GetUserByID(claims.Issuer)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized: ", err.Error())
+	}
+	passwordless := model.PasswordlessUser{
+		ID:      user.ID,
+		Admin:   user.Admin,
+		Name:    user.Name,
+		Email:   user.Email,
+		Comment: user.Comment,
+	}
+	return c.JSON(http.StatusOK, passwordless)
+}
