@@ -17,14 +17,6 @@ type User struct {
 	Comment  sql.NullString `json:"comment"`
 }
 
-type PasswordlessUser struct {
-	ID      uuid.UUID      `json:"id"`
-	Admin   bool           `json:"admin"`
-	Name    string         `json:"name"`
-	Email   string         `json:"email"`
-	Comment sql.NullString `json:"comment"`
-}
-
 func GetUsers() ([]User, error) {
 	var users []User
 	err := db.Find(&users).Error

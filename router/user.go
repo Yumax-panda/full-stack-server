@@ -112,12 +112,5 @@ func GetCurrentUser(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized: ", err.Error())
 	}
-	passwordless := model.PasswordlessUser{
-		ID:      user.ID,
-		Admin:   user.Admin,
-		Name:    user.Name,
-		Email:   user.Email,
-		Comment: user.Comment,
-	}
-	return c.JSON(http.StatusOK, passwordless)
+	return c.JSON(http.StatusOK, user)
 }
