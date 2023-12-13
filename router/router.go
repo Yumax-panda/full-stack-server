@@ -19,6 +19,8 @@ func SetRouter(e *echo.Echo) error {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowCredentials: true,
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
 	}))
 
 	api := e.Group("/api")
@@ -29,7 +31,7 @@ func SetRouter(e *echo.Echo) error {
 			apiUsers.POST("", CreateUser)
 			apiUsers.POST("/login", Login)
 			apiUsers.GET("/logout", Logout)
-			apiMe := api.Group("/@me")
+			apiMe := apiUsers.Group("/@me")
 			{
 				apiMe.GET("", GetCurrentUser)
 			}
