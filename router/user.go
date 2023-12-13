@@ -100,6 +100,8 @@ func Logout(c echo.Context) error {
 		Value:    "",
 		Expires:  time.Now().Add(-time.Hour),
 		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteNoneMode,
 	}
 	c.SetCookie(newCookie)
 	return c.JSON(http.StatusOK, echo.Map{
