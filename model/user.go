@@ -1,21 +1,17 @@
 package model
 
 import (
-	"database/sql"
-
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	_ "gorm.io/gorm"
 )
 
 type User struct {
-	ID       uuid.UUID      `json:"id"`
-	Admin    bool           `json:"admin"`
-	Name     string         `json:"name"`
-	Email    string         `json:"email"`
-	Password string         `json:"password"`
-	Comment  sql.NullString `json:"comment"`
-	Skills   []*Skill       `json:"skills"`
+	ID       uuid.UUID `json:"id"`
+	Admin    bool      `json:"admin"`
+	Name     string    `json:"name"`
+	Email    string    `json:"email"`
+	Password string    `json:"password"`
 }
 
 func GetUsers() ([]User, error) {
@@ -34,7 +30,6 @@ func CreateUser(name string, email string, password string, comment string) (Use
 		Name:     name,
 		Email:    email,
 		Password: string(hashedPassword),
-		Comment:  sql.NullString{String: comment, Valid: true},
 	}
 	err = db.Create(&user).Error
 	return user, err
