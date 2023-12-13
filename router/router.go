@@ -28,6 +28,7 @@ func SetRouter(e *echo.Echo) error {
 			apiUsers.GET("", GetUsers)
 			apiUsers.POST("", CreateUser)
 			apiUsers.POST("/login", Login)
+			apiUsers.GET("/logout", Logout)
 		}
 		apiMe := api.Group("/@me")
 		{

@@ -93,6 +93,18 @@ func Login(c echo.Context) error {
 	})
 }
 
+func Logout(c echo.Context) error {
+	newCookie := new(http.Cookie)
+	newCookie.Name = "jwt"
+	newCookie.Value = ""
+	newCookie.Expires = time.Now().Add(-time.Hour)
+	newCookie.HttpOnly = true
+	c.SetCookie(newCookie)
+	return c.JSON(http.StatusOK, echo.Map{
+		"message": "Logged out",
+	})
+}
+
 func GetCurrentUser(c echo.Context) error {
 	cookie, err := c.Cookie("jwt")
 	if err != nil {
