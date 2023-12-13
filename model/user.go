@@ -15,6 +15,7 @@ type User struct {
 	Email    string         `json:"email"`
 	Password string         `json:"password"`
 	Comment  sql.NullString `json:"comment"`
+	Skills   []*Skill       `json:"skills"`
 }
 
 func GetUsers() ([]User, error) {
