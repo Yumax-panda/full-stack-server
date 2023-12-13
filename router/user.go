@@ -58,11 +58,12 @@ func CreateUser(c echo.Context) error {
 }
 
 func setCookie(c echo.Context, t string) {
-	cookie := new(http.Cookie)
-	cookie.Name = "jwt"
-	cookie.Value = t
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	cookie.HttpOnly = true
+	cookie := &http.Cookie{
+		Name:     "jwt",
+		Value:    t,
+		Expires:  time.Now().Add(24 * time.Hour),
+		HttpOnly: true,
+	}
 	c.SetCookie(cookie)
 }
 
@@ -94,11 +95,12 @@ func Login(c echo.Context) error {
 }
 
 func Logout(c echo.Context) error {
-	newCookie := new(http.Cookie)
-	newCookie.Name = "jwt"
-	newCookie.Value = ""
-	newCookie.Expires = time.Now().Add(-time.Hour)
-	newCookie.HttpOnly = true
+	newCookie := &http.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Expires:  time.Now().Add(-time.Hour),
+		HttpOnly: true,
+	}
 	c.SetCookie(newCookie)
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "Logged out",
