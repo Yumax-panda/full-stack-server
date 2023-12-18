@@ -1,0 +1,86 @@
+openapi: 3.1.0
+
+info:
+  title: Full Stack Server
+  version: 1.0.0
+  description: API for 'Full Stack'
+  contact:
+    name: Yumax-panda
+servers:
+  - url: http://localhost:8000
+    description: localhost
+
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: string
+      description: Credentials or access token for API
+
+paths:
+  /v1/healthcheck:
+    get:
+      tags:
+        - healthcheck
+      operationId: healthcheck
+      responses:
+        200:
+          description: OK
+    
+  /v1/users:
+    post:
+      tags:
+        - users
+      summary: ユーザー新規作成
+      operationId: PostUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/users.yaml#/components/schemas/PostUserRequestBody
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/users.yaml#/components/schemas/PostUserResponse
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                UserAlreadyExists:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUserAlreadyExists
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+
+/v1/users/@me:
+    get:
+      tags:
+        - users
+      summary: ユーザー情報取得
+      operationId: GetCurrentUser
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/users.yaml#/components/schemas/GetCurrentUserResponse
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
