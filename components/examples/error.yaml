@@ -1,0 +1,41 @@
+components:
+  examples:
+    # HTTPステータスコード由来のエラー (Code 1k未満)
+    ErrorBadRequest:
+      value:
+        status: 400
+        code: 400
+        title: Bad Request
+        detail: Bad request
+    ErrorInternalServerError:
+      value:
+        status: 500
+        code: 500
+        title: Internal Server Error
+        detail: Internal server error
+    ErrorNotFound:
+      value:
+        status: 404
+        code: 404
+        title: Not Found
+        detail: Not Found
+
+    # User関係のエラー (Code 1k)
+    ErrorUnauthenticated:
+      value:
+        status: 401
+        code: 1000
+        title: Unauthenticated
+        detail: The session has been expired or invalid.
+    ErrorInvalidCredentials:
+      value:
+        status: 400
+        code: 1001
+        title: Invalid Credentials
+        detail: Wrong username and password combination.
+    ErrorUserAlreadyExists:
+      value:
+        status: 400
+        code: 1002
+        title: User Already Exists
+        detail: A user with matching data already exists.
