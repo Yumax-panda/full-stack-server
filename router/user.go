@@ -50,6 +50,9 @@ func GetUsers(c echo.Context) error {
 func CreateUser(c echo.Context) error {
 	var payload CreateUserPayload
 	err := c.Bind(&payload)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
 	user, err := model.CreateUser(payload.Name, payload.Email, payload.Password, payload.Comment)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
