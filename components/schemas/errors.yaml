@@ -1,0 +1,24 @@
+components:
+  schemas:
+    Error:
+      properties:
+        status:
+          type: integer
+          description: HTTP Status Code
+        code:
+          type: integer
+          format: int64
+          description: Error code
+        title:
+          type: string
+          description: エラータイトル
+        detail:
+          type: string
+          description: エラーメッセージ
+        debugData:
+          type: string
+      required:
+        - status
+        - title
+        - detail
+        - code
