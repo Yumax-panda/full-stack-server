@@ -1,0 +1,17 @@
+components:
+  responses:
+    GeneralError:
+      description: General error
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/error.yaml#/components/schemas/Error
+          examples:
+            BadRequest:
+              $ref: ../examples/errors.yaml#/components/examples/ErrorBadRequest
+            NotFound:
+              $ref: ../examples/errors.yaml#/components/examples/ErrorNotFound
+            InternalServerError:
+              $ref: ../examples/errors.yaml#/components/examples/ErrorInternalServerError
+            ErrorUnauthenticated:
+              $ref: ../examples/errors.yaml#/components/examples/ErrorUnauthenticated

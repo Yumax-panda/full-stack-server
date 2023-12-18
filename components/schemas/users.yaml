@@ -1,0 +1,60 @@
+components:
+  schemas:
+    ### Requests/Responses ###
+    PostUserRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 名前
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+        password:
+          type: string
+          description: パスワード
+      required:
+        - name
+        - email
+        - password
+  
+    PostUserResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+      required:
+        - user
+
+    GetCurrentUserResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+      required:
+        - user
+
+    ### Shared ###
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          description: メールアドレス
+        id:
+          type: string
+          description: ユーザー名
+        name:
+          type: string
+          description: 名前
+        sessionId:
+          type: string
+          description: セッションID
+        wallet:
+          $ref: "#/components/schemas/Wallet"
+      required:
+        - email
+        - id
+        - name
+        - sessionId
