@@ -84,3 +84,33 @@ paths:
                   $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
         default:
           $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+
+/v1/users/login:
+  post:
+    tags:
+      - auths
+    summary: ログイン
+    operationId: LoginUser
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref:  ./components/schemas/auths.yaml#/components/schemas/LoginUserRequestBody
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+          schema:
+            $ref: ./components/schemas/auths.yaml#/components/schemas/LoginUserResponse 
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                InvalidCredentials:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorInvalidCredentials
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
