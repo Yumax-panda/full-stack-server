@@ -34,3 +34,9 @@ type Skill struct {
 	Categories []*Category `json:"categories" gorm:"many2many:skill_category_relations;"`
 	Method     Method      `json:"method"`
 }
+
+func GetSkillsByUserID(userID string) ([]Skill, error) {
+	var skills []Skill
+	err := db.Where("user_id = ?", userID).Find(&skills).Error
+	return skills, err
+}

@@ -23,7 +23,7 @@ func SetRouter(e *echo.Echo) error {
 		AllowMethods:     []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
 	}))
 
-	api := e.Group("/api")
+	api := e.Group("/api/v1")
 	{
 		apiUsers := api.Group("/users")
 		{
