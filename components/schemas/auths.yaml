@@ -1,0 +1,22 @@
+components:
+  schemas:
+    ### Requests/Responses ###
+    LoginUserRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    LoginUserResponse:
+      type: object
+      properties:
+        user:
+          $ref: "./users.yaml#/components/schemas/User"
+      required:
+        - user

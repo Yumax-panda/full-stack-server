@@ -1,7 +1,7 @@
 components:
   schemas:
     ### Requests/Responses ###
-    PostUserRequestBody:
+    PostSkillRequestBody:
       type: object
       properties:
         name:

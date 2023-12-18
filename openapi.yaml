@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.3
 
 info:
   title: Full Stack Server
@@ -58,7 +58,7 @@ paths:
         default:
           $ref: ./components/responses/error.yaml#/components/responses/GeneralError
 
-/v1/users/@me:
+  /v1/users/@me:
     get:
       tags:
         - users
@@ -85,24 +85,24 @@ paths:
         default:
           $ref: ./components/responses/error.yaml#/components/responses/GeneralError
 
-/v1/users/login:
-  post:
-    tags:
-      - auths
-    summary: ログイン
-    operationId: LoginUser
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref:  ./components/schemas/auths.yaml#/components/schemas/LoginUserRequestBody
-    responses:
-      200:
-        description: OK
+  /v1/users/login:
+    post:
+      tags:
+        - auths
+      summary: ログイン
+      operationId: LoginUser
+      requestBody:
         content:
           application/json:
-          schema:
-            $ref: ./components/schemas/auths.yaml#/components/schemas/LoginUserResponse 
+            schema:
+              $ref:  ./components/schemas/auths.yaml#/components/schemas/LoginUserRequestBody
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/auths.yaml#/components/schemas/LoginUserResponse 
         400:
           description: Bad Request
           content:
@@ -114,3 +114,17 @@ paths:
                   $ref: ./components/examples/errors.yaml#/components/examples/ErrorInvalidCredentials
         default:
           $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+
+  /v1/skills:
+    get:
+      tags: 
+        - skills
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/skills.yaml
