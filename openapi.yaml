@@ -169,6 +169,73 @@ paths:
                   $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
         default:
           $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+  /v1/skills/{skillId}:
+    patch:
+      tags:
+        - skills
+      summary: スキル更新
+      operationId: PatchSkill
+      security:
+        - Bearer: []
+      parameters:
+        - name: skillId
+          in: path
+          description: スキルID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/skills.yaml#/components/schemas/PatchSkillRequestBody
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/skills.yaml#/components/schemas/Skill
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+    delete:
+      tags:
+        - skills
+      summary: スキル削除
+      operationId: DeleteSkill
+      security:
+        - Bearer: []
+      parameters:
+        - name: skillId
+          in: path
+          description: スキルID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+
   /v1/tags:
     get:
       tags:

@@ -34,6 +34,18 @@ components:
           description: タグID
       required:
         - tagId
+    PatchSkillRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 名前
+        image:
+          type: string
+          description: 画像url
+        level:
+          type: int64
+          description: 熟練度
 
     ### Shared ###
     Skill:
