@@ -169,6 +169,128 @@ paths:
                   $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
         default:
           $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+  /v1/tags:
+    get:
+      tags:
+        - tags
+      summary: タグ一覧取得
+      operationId: GetTags
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/tags.yaml#/components/schemas/GetTagsResponse
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+    post:
+      tags:
+        - tags
+      summary: タグ新規作成
+      operationId: PostTag
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/tags.yaml#/components/schemas/PostTagRequestBody
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/tags.yaml#/components/schemas/Tag
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+  /v1/tags/{tagId}:
+    patch:
+      tags:
+        - tags
+      summary: タグ更新
+      operationId: PatchTag
+      security:
+        - Bearer: []
+      parameters:
+        - name: tagId
+          in: path
+          description: タグID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/tags.yaml#/components/schemas/PatchTagRequestBody
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/tags.yaml#/components/schemas/Tag
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+    delete:
+      tags:
+        - tags
+      summary: タグ削除
+      operationId: DeleteTag
+      security:
+        - Bearer: []
+      parameters:
+        - name: tagId
+          in: path
+          description: タグID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
 
   /v1/skills/{skillId}/tags/{tagId}:
     put:

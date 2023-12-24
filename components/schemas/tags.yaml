@@ -22,6 +22,15 @@ components:
       required:
         - name
         - color
+    PatchTagRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 名前
+        color:
+          type: string
+          description: カラーコード
 
     ### Shared ###
     Tag:
