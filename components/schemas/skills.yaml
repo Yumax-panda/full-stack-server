@@ -20,7 +20,7 @@ components:
           type: string
           description: 画像url
         level:
-          type: int64
+          type: integer
           description: 熟練度
       required:
         - name
