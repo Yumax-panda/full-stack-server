@@ -1,58 +1,63 @@
 components:
   schemas:
     ### Requests/Responses ###
+    GetSkillsResponse:
+      type: object
+      properties:
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/Skill"
+      required:
+        - skills
     PostSkillRequestBody:
       type: object
       properties:
         name:
           type: string
           description: 名前
-        email:
+        image:
           type: string
-          format: email
-          description: メールアドレス
-        password:
-          type: string
-          description: パスワード
+          description: 画像url
+        level:
+          type: int64
+          description: 熟練度
       required:
         - name
-        - email
-        - password
-  
-    PostUserResponse:
+        - image
+        - level
+    PostSkillTagRequestBody:
       type: object
       properties:
-        user:
-          $ref: "#/components/schemas/User"
+        tagId:
+          type: string
+          description: タグID
       required:
-        - user
-
-    GetCurrentUserResponse:
-      type: object
-      properties:
-        user:
-          $ref: "#/components/schemas/User"
-      required:
-        - user
+        - tagId
 
     ### Shared ###
-    User:
+    Skill:
       type: object
       properties:
-        email:
-          type: string
-          description: メールアドレス
         id:
           type: string
-          description: ユーザー名
+          description: ユーザーID
         name:
           type: string
           description: 名前
-        sessionId:
+        image:
           type: string
-          description: セッションID
+          description: 画像url
+        level:
+          type: int64
+          description: 熟練度
+        tags:
+          type: array
+          items:
+            $ref: "./tags.yaml#/components/schemas/Tag"
       required:
-        - email
         - id
         - name
-        - sessionId
+        - image
+        - level
+        - tags

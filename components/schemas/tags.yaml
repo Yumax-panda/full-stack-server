@@ -1,0 +1,42 @@
+components:
+  schemas:
+    ### Requests/Responses ###
+    GetTagsResponse:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+      required:
+        - tags
+    PostTagRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 名前
+        color:
+          type: string
+          description: カラーコード
+      required:
+        - name
+        - color
+
+    ### Shared ###
+    Tag:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+        name:
+          type: string
+          description: 名前
+        color:
+          type: string
+          description: カラーコード
+      required:
+        - id
+        - name
+        - color

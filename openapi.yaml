@@ -127,4 +127,119 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/skills.yaml
+                $ref: ./components/schemas/skills.yaml#/components/schemas/GetSkillsResponse
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+    post:
+      tags:
+        - skills
+      summary: スキル新規作成
+      operationId: PostSkill
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/skills.yaml#/components/schemas/PostSkillRequestBody
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/skills.yaml#/components/schemas/Skill
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+
+  /v1/skills/{skillId}/tags:
+    post:
+      tags:
+        - skills
+      summary: スキルにタグを追加
+      operationId: PostSkillTag
+      security:
+        - Bearer: []
+      parameters:
+        - name: skillId
+          in: path
+          description: スキルID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/skills.yaml#/components/schemas/PostSkillTagRequestBody
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/skills.yaml#/components/schemas/Skill
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+    delete:
+      tags:
+        - skills
+      summary: スキルからタグを削除
+      operationId: DeleteSkillTag
+      security:
+        - Bearer: []
+      parameters:
+        - name: skillId
+          in: path
+          description: スキルID
+          required: true
+          schema:
+            type: string
+        - name: tagId
+          in: query
+          description: タグID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/error.yaml#/components/schemas/Error
+              examples:
+                Unauthenticated:
+                  $ref: ./components/examples/errors.yaml#/components/examples/ErrorUnauthenticated
+        default:
+          $ref: ./components/responses/error.yaml#/components/responses/GeneralError
+
